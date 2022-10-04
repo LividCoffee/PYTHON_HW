@@ -2,6 +2,9 @@ import os
 
 """
 Finding periodic chemical element information
+result[0] store Element number
+result[1] store Element name
+result[2] store Element full name
 """
 
 
