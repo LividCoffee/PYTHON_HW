@@ -1,0 +1,37 @@
+import os
+
+"""
+Finding periodic chemical element information
+"""
+
+
+def separate_lines(data: str) -> list:
+    separated_lines = []
+    with open(data) as txt_file:
+        while txt_file:
+            line = txt_file.readline().replace(",", " ").split()
+            line_lowered = list(map(lambda symbol: symbol.lower(), line))
+            if len(line_lowered) == 0:
+                break
+            separated_lines.append(line_lowered)
+    return separated_lines
+
+
+def find_element(data, element: list):
+    try:
+        result = [x for x in data if element.lower() in x][0]
+        print(f'Количество протонов: {result[0]}\nАббревиатура: {result[1].capitalize()}\nНазвание: {result[2].capitalize()}')
+    except:
+        print('Вы ввели неверное значение')
+        main()
+
+
+def main():
+    file = os.path.join('elements.txt')
+    element = input("Введите количество протонов, аббревиатуру или название элемента переодической системы Менделеева:")
+    separated = separate_lines(file)
+    find_element(separated, element)
+
+
+if __name__ == '__main__':
+    main()
