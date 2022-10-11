@@ -1,0 +1,61 @@
+import random
+import operator
+from collections import Counter
+from prettytable import PrettyTable
+
+
+def roll_dice(iteration_count: int, max_faces: int) -> list[int]:
+    """Simulate dice rolling"""
+    results = []
+    iteration = 0
+    while iteration < iteration_count:
+        first_dice = random.randint(1, max_faces)
+        second_dice = random.randint(1, max_faces)
+        total = first_dice + second_dice
+        results.append(total)
+        iteration += 1
+    return results
+
+
+def sort_roll_stats(results: list[int]) -> list[int]:
+    """Sorting dice result statistic"""
+    stats = Counter(results)
+    stats_sorted = sorted(stats.items())
+    return stats_sorted
+
+
+def print_stats_table(stats_sorted: list[int], count: int) -> PrettyTable:
+    """Printing table with dice result statistic"""
+    table = PrettyTable()
+    table.field_names = ('Исход', 'Процент симуляции', 'Ожидаемый процент')
+    for pos in range(len(stats_sorted)):
+        result = stats_sorted[pos][0]
+        qty_percent = round(stats_sorted[pos][1]/count*100, 2)
+        table.add_row([result, str(qty_percent), expected_percent.get(pos+2)])
+    return table
+
+
+def main(iteration_count: int, max_faces: int):
+    results = roll_dice(iteration_count, max_faces)
+    stats_sorted = sort_roll_stats(results)
+    table = print_stats_table(stats_sorted, iteration_count)
+    print(table)
+
+
+if __name__ == '__main__':
+    expected_percent = {
+        2:2.78,
+        3:5.56,
+        4:8.33,
+        5:11.11,
+        6:13.89,
+        7:16.67,
+        8:13.89,
+        9:11.11,
+        10:8.33,
+        11:5.56,
+        12:2.78
+    }
+    max_faces = 6
+    roll_iteration_count = 1000
+    main(roll_iteration_count, max_faces)
